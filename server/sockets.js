@@ -1,18 +1,19 @@
 const sockets = io => {
   // set a default group of symbols to display
-  const stockList = ["GOOG", "FB", "TWTR"];
+  let stockList = ['GOOG', 'FB', 'TWTR'];
 
   io.on('connection', socket => {
-    console.log(`Connected on socket ${ socket.id }`);
-
+    // when a new subscription event fires, send back the current stocklist
     socket.on('subscribe', cb => {
       cb(stockList);
     });
 
-    socket.on('disconnect', () => {
-      console.log(`Disconnect on socket ${ socket.id }`);
+    socket.on('add', value => {
+      // when a new stock is added, append to the list and return
+      stockList = [...stockList, value];
+      socket.emit('update', stockList);
     });
   });
-}
+};
 
 export default sockets;

@@ -1,13 +1,13 @@
-const webpack = require('webpack'),
-      HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
   entry: [
     'babel-polyfill',
-    './app/index.js'
+    './app/index.jsx'
   ],
   output: {
-    path: __dirname + '/server/public',
+    path: `${ __dirname }/server/public`,
     publicPath: '/',
     filename: 'bundle.js'
   },
@@ -39,7 +39,7 @@ const config = {
       template: './app/index.html'
     })
   ]
-}
+};
 
 if (process.env.NODE_ENV === 'production') {
   config.plugins.push(
@@ -49,7 +49,7 @@ if (process.env.NODE_ENV === 'production') {
       }
     }),
     new webpack.optimize.UglifyJsPlugin()
-  )
+  );
 }
 
 module.exports = config;

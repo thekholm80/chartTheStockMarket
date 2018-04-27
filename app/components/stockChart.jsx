@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-// const LineChart = require("react-chartjs").Line;
 import Chart from 'chart.js';
 
 import drawChart from '../util/dataCleaner';
@@ -11,17 +10,9 @@ class StockChart extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { data: null, context: null }
+    this.state = { data: null, context: null };
 
     this.draw = this.draw.bind(this);
-  }
-
-  draw() {
-    const chart = new Chart(this.state.context, this.state.data);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({ data: drawChart(nextProps.data) }, () => this.draw());
   }
 
   componentDidMount() {
@@ -30,12 +21,20 @@ class StockChart extends Component {
     this.setState({ context: context }, () => this.draw());
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ data: drawChart(nextProps.data) }, () => this.draw());
+  }
+
+  draw() {
+    const chart = new Chart(this.state.context, this.state.data);
+  }
+
   render() {
     return (
       <div className='stockChart'>
         <canvas ref='chart' />
       </div>
-    )
+    );
   }
 }
 

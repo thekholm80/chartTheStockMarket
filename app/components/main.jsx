@@ -15,32 +15,6 @@ class Main extends Component {
     this.state = { data: [] };
 
     this.getData = this.getData.bind(this);
-    this.updateList = this.updateList.bind(this);
-  }
-
-  getData(symbols) {
-    const url = '/api/getstocklist';
-    const instance = axios.create({
-      baseURL: 'http://localhost:3000/',
-      headers: { type: 'application/x-www-form-urlencoded' }
-    });
-
-    symbols.map(async symbol => {
-      const postData = { symbol: symbol };
-
-      const { data } = await instance({
-        method: 'post',
-        url: url,
-        data: postData
-      });
-
-      this.setState({ data: [...this.state.data, data] });
-    });
-  }
-
-  updateList(newList) {
-    // sends a new array of stock symbols to the server
-    socket.emit('update', newList);
   }
 
   componentDidMount() {
@@ -53,8 +27,31 @@ class Main extends Component {
     });
 
     // handle 'update' events sent by server
+    // have to 'reset' data before updating to avoid dups
     socket.on('update', newList => {
-      this.setState({ data: newList });
+      this.setState({ data: [] }, () => {
+        this.getData(newList);
+      });
+    });
+  }
+
+  getData(symbols) {
+    const url = '/api/getstocklist';
+    const instance = axios.create({
+      baseURL: 'http://localhost:3000/',
+      headers: { type: 'application/x-www-form-urlencoded' }
+    });
+
+    symbols.map(async symbol => {
+      const postData = { symbol };
+
+      const { data } = await instance({
+        method: 'post',
+        url,
+        data: postData
+      });
+
+      this.setState({ data: [...this.state.data, data] });
     });
   }
 
@@ -62,9 +59,9 @@ class Main extends Component {
     return (
       <div className='main'>
         <StockChart data={ this.state.data } />
-        <Interface update={ this.updateList } />
+        <Interface />
       </div>
-    )
+    );
   }
 }
 
