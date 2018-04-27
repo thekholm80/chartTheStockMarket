@@ -19,7 +19,7 @@ class Interface extends Component {
   render() {
     return (
       <Well className='interface'>
-        
+
       </Well>
     )
   }

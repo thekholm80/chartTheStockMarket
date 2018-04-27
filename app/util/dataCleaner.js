@@ -1,4 +1,4 @@
-const drawChart = data => {
+const cleanData = data => {
   /*
     Takes in raw api data, reformats it for chart.js
 
@@ -57,4 +57,4 @@ const buildDataSet = data => {
   return formattedData;
 }
 
-export default drawChart;
+export default cleanData;
