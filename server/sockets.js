@@ -13,6 +13,12 @@ const sockets = io => {
       stockList = [...stockList, value];
       io.emit('update', stockList);
     });
+
+    socket.on('remove', value => {
+      const i = stockList.indexOf(value);
+      stockList.splice(i, 1);
+      io.emit('update', stockList);
+    });
   });
 };
 

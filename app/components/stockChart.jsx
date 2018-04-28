@@ -18,7 +18,7 @@ class StockChart extends Component {
   componentDidMount() {
     const ref = ReactDOM.findDOMNode(this.refs.chart);
     const context = ref.getContext('2d');
-    this.setState({ context }, () => this.draw());
+    this.setState({ context });
   }
 
   componentWillReceiveProps(nextProps) {

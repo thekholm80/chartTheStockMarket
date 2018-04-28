@@ -32,13 +32,13 @@ app.use(bodyParser.json({ strict: false }));
 // api route to fetch stock data
 app.post('/api/getstocklist', async (req, res) => {
   const { symbol } = req.body;
-  const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${ symbol }&interval=60min&outputsize=compact&apikey=`;
+  const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${ symbol }&interval=60min&outputsize=compact&apikey=${ API_KEY }`;
   axios.interceptors.response.use(
     response => response,
     error => Promise.reject(error.response.data)
   );
-  const { data } = await axios.get(url).catch(error => ({ data: error }));
-  res.json(data);
+  const { data, status } = await axios.get(url).catch(error => ({ data: error }));
+  res.json({ status, data });
 });
 
 // main/fallback route to serve front end

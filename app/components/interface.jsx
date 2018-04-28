@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Well } from 'react-bootstrap';
+import { Well, ButtonGroup, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 
 import './interface.css';
 
@@ -26,12 +26,23 @@ class Interface extends Component {
   }
 
   render() {
+    const tooltip = (
+      <Tooltip id='tooltip'>Click to remove from chart</Tooltip>
+    );
+    const buttons = this.props.symbols.map(symbol => (
+      <OverlayTrigger placement="top" overlay={ tooltip } key={ symbol }>
+        <Button onClick={ () => this.props.remove(symbol) }>{ symbol }</Button>
+      </OverlayTrigger>
+    ));
     return (
       <Well className='interface'>
         <form>
           <input type='text' value={ this.state.inputValue } placeholder='Add a symbol' onChange={ this.updateInput } />
-          <button onClick={ this.addSymbol }>Submit</button>
+          <Button onClick={ this.addSymbol }>Submit</Button>
         </form>
+        <ButtonGroup>
+          { buttons }
+        </ButtonGroup>
       </Well>
     );
   }
