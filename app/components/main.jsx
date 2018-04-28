@@ -20,7 +20,8 @@ class Main extends Component {
     this.state = {
       data: [],
       symbols: [],
-      error: false
+      error: false,
+      isLoading: true
     };
 
     this.getData = this.getData.bind(this);
@@ -38,7 +39,7 @@ class Main extends Component {
     // handle 'update' events sent by server
     // have to 'reset' data before updating to avoid dups
     socket.on('update', newList => {
-      this.setState({ data: [] }, () => {
+      this.setState({ data: [], isLoading: true }, () => {
         this.getData(newList);
       });
     });
@@ -65,7 +66,7 @@ class Main extends Component {
         // I think this is what's causing my race condtion & error
         // need to find a way to complete all of the api calls before
         // calling setState()
-        this.setState({ data: [...this.state.data, data.data] });
+        this.setState({ data: [...this.state.data, data.data], isLoading: false });
       }
     });
   }
@@ -91,10 +92,20 @@ class Main extends Component {
           </Modal.Footer>
         </Modal>
         <StockChart data={ this.state.data } />
-        <Interface symbols={ this.state.symbols } remove={ this.remove } />
+        <Interface
+          symbols={ this.state.symbols }
+          remove={ Main.remove }
+          isLoading={ this.state.isLoading }
+        />
       </div>
     );
   }
 }
 
 export default Main;
+/*
+  NOTE:
+  Static methds being passed as props must be passed by
+  referencing the class itself, not the instance
+  e.g. Main.remove not this.remove
+*/
