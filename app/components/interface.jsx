@@ -19,15 +19,19 @@ class Interface extends Component {
     this.setState({ inputValue: event.target.value });
   }
 
-  addSymbol() {
+  addSymbol(e) {
+    e.preventDefault();
     socket.emit('add', this.state.inputValue);
+    this.setState({ inputValue: '' });
   }
 
   render() {
     return (
       <Well className='interface'>
-        <input type='text' value={ this.state.inputValue } placeholder='Add a symbol' onChange={ this.updateInput } />
-        <button onClick={ this.addSymbol }>Submit</button>
+        <form>
+          <input type='text' value={ this.state.inputValue } placeholder='Add a symbol' onChange={ this.updateInput } />
+          <button onClick={ this.addSymbol }>Submit</button>
+        </form>
       </Well>
     );
   }

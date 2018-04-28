@@ -1,14 +1,14 @@
 import express from 'express';
-import axios from 'axios'
+import axios from 'axios';
 import bodyParser from 'body-parser';
 
 import { PORT, API_KEY } from './config/config';
 import sockets from './sockets';
 
-const app = express();
-
 // dev only
 import cors from 'cors';
+
+const app = express();
 
 const corsOptions = {
   origin: 'http://localhost:8080',
@@ -32,15 +32,18 @@ app.use(bodyParser.json({ strict: false }));
 // api route to fetch stock data
 app.post('/api/getstocklist', async (req, res) => {
   const { symbol } = req.body;
-  const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${ symbol }&interval=60min&outputsize=compact&apikey=${ API_KEY }`;
-  const { data } = await axios.get(url);
-
+  const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${ symbol }&interval=60min&outputsize=compact&apikey=`;
+  axios.interceptors.response.use(
+    response => response,
+    error => Promise.reject(error.response.data)
+  );
+  const { data } = await axios.get(url).catch(error => ({ data: error }));
   res.json(data);
 });
 
 // main/fallback route to serve front end
 app.get('/*', (req, res) => {
-  res.send("Under construction");
+  res.send('Under construction');
 });
 
 /*

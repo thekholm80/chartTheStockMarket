@@ -6,14 +6,12 @@ import Footer from './footer';
 
 import './app.css';
 
-const App = () => {
-  return (
-    <div className='app'>
-      <Header />
-      <Main />
-      <Footer />
-    </div>
-  )
-}
+const App = () => (
+  <div className='app'>
+    <Header />
+    <Main />
+    <Footer />
+  </div>
+);
 
 export default App;

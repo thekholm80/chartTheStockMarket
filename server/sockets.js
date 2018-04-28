@@ -9,9 +9,9 @@ const sockets = io => {
     });
 
     socket.on('add', value => {
-      // when a new stock is added, append to the list and return
+      // when a new stock is added, append to the list and broadcast
       stockList = [...stockList, value];
-      socket.emit('update', stockList);
+      io.emit('update', stockList);
     });
   });
 };

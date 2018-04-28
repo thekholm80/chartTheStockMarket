@@ -50,8 +50,11 @@ class Main extends Component {
         url,
         data: postData
       });
-
-      this.setState({ data: [...this.state.data, data] });
+      if (Object.prototype.hasOwnProperty.call(data, 'Error Message')) {
+        console.log(data);
+      } else {
+        this.setState({ data: [...this.state.data, data] });
+      }
     });
   }
 

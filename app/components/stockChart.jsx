@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Chart from 'chart.js';
 
-import drawChart from '../util/dataCleaner';
+import dataCleaner from '../util/dataCleaner';
 
 import './stockChart.css';
 
@@ -18,11 +18,11 @@ class StockChart extends Component {
   componentDidMount() {
     const ref = ReactDOM.findDOMNode(this.refs.chart);
     const context = ref.getContext('2d');
-    this.setState({ context: context }, () => this.draw());
+    this.setState({ context }, () => this.draw());
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ data: drawChart(nextProps.data) }, () => this.draw());
+    this.setState({ data: dataCleaner(nextProps.data) }, () => this.draw());
   }
 
   draw() {
