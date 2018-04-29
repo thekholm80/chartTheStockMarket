@@ -1,3 +1,3 @@
 ### Project for freeCodeCamp
 
-Still under construction, live demo coming soon
+See it live here: https://thekholm80-chart-stock-market.herokuapp.com/
